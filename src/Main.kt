@@ -5,6 +5,7 @@ fun main() {
     //check(day.part1(testInput) == 1)
 
     val input = readInput("Day01")
-    println(day.part1(input))
-    //println(day.part2(input))
+    println("Result of part 1: ${day.part1(input)}")
+    println("Result of part 2: ${day.part2(input)}")
+
 }
