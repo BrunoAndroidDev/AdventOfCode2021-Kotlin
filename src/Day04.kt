@@ -11,6 +11,12 @@ class Cell(val value: Int, var marked: Boolean) {
 
 class Board(input: List<String>) {
 
+    companion object {
+        private var _id = 0
+    }
+
+    val id: Int = _id++
+
     // 2D Array containing a bunch of cells
     private val matrix = ArrayList<List<Cell>>()
     init {
@@ -118,7 +124,38 @@ class Day04 {
     // https://adventofcode.com/2021/day/4#part2
     fun part2(input: List<String>): Int {
 
-        return input.size
+        // save random values
+        val randomData = input.first().split(",")
+
+        // create Boards
+        val boards = ArrayList<Board>()
+        val lines = ArrayList<String>()
+        input.drop(2).forEach {
+            if (it.isEmpty()) {
+                boards.add(Board(lines))
+                lines.clear()
+            } else {
+                lines.add(it)
+            }
+        }
+        boards.add(Board(lines))
+
+        var remainingBoards = boards.map { it.id }
+        var result = 0
+        randomData.forEach { data ->
+            val number = Integer.parseInt(data)
+            boards.forEach { board ->
+                val sum = board.find(number)
+                if (sum != -1) {
+                    if (remainingBoards.contains(board.id)) {
+                        result = number*sum
+                        remainingBoards = remainingBoards.filter { it != board.id }
+                    }
+                }
+            }
+        }
+
+        return result
     }
 
 }
