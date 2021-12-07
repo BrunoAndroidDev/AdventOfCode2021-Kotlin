@@ -1,6 +1,6 @@
 class Day02 {
 
-    // https://adventofcode.com/2021/day/1#part1
+    // https://adventofcode.com/2021/day/2#part1
     fun part1(input: List<String>): Int {
         // Variables initialization
         var hPosition = 0
@@ -19,7 +19,7 @@ class Day02 {
         return hPosition*depth
     }
 
-    // https://adventofcode.com/2021/day/1#part2
+    // https://adventofcode.com/2021/day/2#part2
     fun part2(input: List<String>): Int {
         // Variables initialization
         var hPosition = 0
