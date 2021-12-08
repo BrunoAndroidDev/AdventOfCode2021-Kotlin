@@ -1,4 +1,3 @@
-import java.util.*
 
 fun main() {
 
@@ -13,5 +12,4 @@ fun main() {
     println("Result of part 2: ${day.part2(input)}")
     val timePart2 = System.currentTimeMillis()
     println(" -> Elapsed time: ${timePart2 - timePart1} ms")
-
 }
