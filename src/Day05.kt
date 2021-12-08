@@ -1,5 +1,6 @@
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.abs
 
 class Map(private val size: Int) {
 
@@ -28,6 +29,25 @@ class Map(private val size: Int) {
                 val to = max(start.y, end.y)
                 for (i in from..to) {
                     ++matrix[i*size + start.x]
+                }
+            } else {
+                val incrementX = if (end.x > start.x) {
+                    1
+                } else {
+                    -1
+                }
+                val incrementY = if (end.y > start.y) {
+                    1
+                } else {
+                    -1
+                }
+                var col = start.x
+                var row = start.y
+                val distance = abs(start.x - end.x)
+                for(i in 0..distance) {
+                    ++matrix[row * size + col]
+                    row += incrementY
+                    col += incrementX
                 }
             }
         }
@@ -67,6 +87,22 @@ class Segment(input: String) {
     fun isVertical(): Boolean {
         return start.x == end.x
     }
+
+    fun getTop(): Point {
+        return if (start.y <= end.y) {
+            start
+        } else {
+            end
+        }
+    }
+
+    fun getBottom(): Point {
+        return if (start.y >= end.y) {
+            start
+        } else {
+            end
+        }
+    }
 }
 
 class Day05 {
@@ -77,7 +113,7 @@ class Day05 {
         // Parse input to create only straight segments
         val segments = input.map { line ->
            Segment(line)
-        }//.filter { it.start.x == it.end.x || it.start.y == it.end.y }
+        }.filter { it.start.x == it.end.x || it.start.y == it.end.y }
 
         val map = Map(1000)
         map.addSegments(segments)
@@ -90,7 +126,17 @@ class Day05 {
     // https://adventofcode.com/2021/day/5#part2
     fun part2(input: List<String>): Int {
 
-        return input.size
+        // Parse input to create segments
+        val segments = input.map { line ->
+            Segment(line)
+        }
+
+        val map = Map(1000)
+        map.addSegments(segments)
+
+        //map.print()
+
+        return map.howManyOverlapping()
     }
 
 }
