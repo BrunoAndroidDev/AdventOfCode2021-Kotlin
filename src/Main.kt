@@ -2,9 +2,8 @@ import java.util.*
 
 fun main() {
 
-    val day = Day05()
-    val input = readInput("Day05")
-
+    val day = Day06()
+    val input = readInput("Day06")
 
     val timeStart = System.currentTimeMillis()
     println("Result of part 1: ${day.part1(input)}")
