@@ -1,8 +1,8 @@
 
 fun main() {
 
-    val day = Day07()
-    val input = readInput("Day07")
+    val day = Day08()
+    val input = readInput("Day08")
 
     val timeStart = System.currentTimeMillis()
     println("Result of part 1: ${day.part1(input)}")
