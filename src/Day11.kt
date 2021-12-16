@@ -78,8 +78,63 @@ class Day11 {
 
     // https://adventofcode.com/2021/day/11#part2
     fun part2(input: List<String>): Int {
+        val matrix = input.mapIndexed { l, line ->
+            line.split("").filter { n -> n.isNotBlank() }.mapIndexed { c, col ->
+                Dumbo(coord = Coord(x = l, y = c), energy = col.toInt())
+            }
+        }.flatten()
+        var totalFlashes = 0
 
-        return input.size
+        var step = 0
+        while (step++ >= 0) {
+
+            val stepHasFlashedList = mutableListOf<Dumbo>()
+
+            // increase energy
+            matrix.forEach { it.energy++ }
+
+            // flashes
+            val currentFlashes = mutableListOf<Dumbo>()
+            for (i in 0 until height) {
+                for (j in 0 until width) {
+                    val dumbo = matrix[i*width+j]
+                    if (dumbo.energy > 9) {
+                        currentFlashes.add(dumbo)
+                        dumbo.flashed = true
+                    }
+                }
+            }
+            while (currentFlashes.isNotEmpty()) {
+                stepHasFlashedList.addAll(currentFlashes)
+
+                val nextFlashers = mutableListOf<Dumbo>()
+
+                currentFlashes.forEach { dumbo ->
+                    val newDumbos = flash(matrix, dumbo.coord)
+                    newDumbos.filter {
+                        !it.flashed && it.energy > 9 && it !in stepHasFlashedList }.forEach {
+                        it.flashed = true
+                        nextFlashers.add(it)
+                    }
+                }
+
+                currentFlashes.clear()
+                currentFlashes.addAll(nextFlashers)
+            }
+
+            totalFlashes += stepHasFlashedList.distinct().size
+            stepHasFlashedList.distinct().forEach {
+                matrix[it.coord.x * width + it.coord.y].reset()
+            }
+
+            if (stepHasFlashedList.distinct().size == width*height) {
+                break
+            }
+
+            println("After step $step")
+            printMatrix(matrix)
+        }
+        return step
     }
 
     private fun indexValid(point: Coord): Boolean {
